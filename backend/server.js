@@ -1,13 +1,13 @@
-const appInsights = require("applicationinsights");
+// const appInsights = require("applicationinsights");
 
-// Initialize App Insights before other imports
-appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY)
-    .setAutoCollectRequests(true)
-    .setAutoCollectPerformance(true)
-    .setAutoCollectExceptions(true)
-    .setAutoCollectDependencies(true)
-    .setSendLiveMetrics(true)
-    .start();
+// // Initialize App Insights before other imports
+// appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY)
+//     .setAutoCollectRequests(true)
+//     .setAutoCollectPerformance(true)
+//     .setAutoCollectExceptions(true)
+//     .setAutoCollectDependencies(true)
+//     .setSendLiveMetrics(true)
+//     .start();
 
 const express = require('express');
 const cors = require('cors');
@@ -24,7 +24,7 @@ dotenv.config();
 
 // Initialize Express app
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
@@ -57,22 +57,22 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model('Product', productSchema);
 
 // Routes
-// app.get('/', (req, res) => {
-//   res.send('Product Catalog API is running');
-// });
+app.get('/', (req, res) => {
+  res.send('Product Catalog API is running');
+});
 
 // Get all products
 app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find();
     // Log a custom event for monitoring
-    appInsightsClient.trackEvent({ name: "Fetched all products", properties: { count: products.length } });
+    // appInsightsClient.trackEvent({ name: "Fetched all products", properties: { count: products.length } });
     
     res.json(products);
   } catch (error) {
     console.error('Error fetching products:', error);
     // Log error details
-    appInsightsClient.trackException({ exception: error });
+    // appInsightsClient.trackException({ exception: error });
     res.status(500).json({ message: 'Error fetching products', error: error.message });
   }
 });
@@ -118,13 +118,13 @@ app.post('/api/upload', upload.single('image'), async (req, res) => {
         console.log("✅ Uploaded Image:", { blobName, imageUrl });
 
         // Log successful upload event
-        appInsightsClient.trackEvent({ name: "Image Uploaded", properties: { blobName, imageUrl } });
+        // appInsightsClient.trackEvent({ name: "Image Uploaded", properties: { blobName, imageUrl } });
 
         // Send the correct blobName and imageUrl
         res.json({ imageUrl, blobName });
     } catch (error) {
         console.error("❌ Error uploading image:", error);
-        appInsightsClient.trackException({ exception: error });
+        // appInsightsClient.trackException({ exception: error });
         res.status(500).json({ message: 'Error uploading image', error: error.message });
     }
 });
