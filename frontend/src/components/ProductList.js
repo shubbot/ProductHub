@@ -14,7 +14,7 @@ function ProductList() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/products`);
+      const response = await axios.get(`https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net/api/products`);
       setProducts(response.data);
       setLoading(false);
     } catch (err) {
