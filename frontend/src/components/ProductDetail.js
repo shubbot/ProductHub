@@ -12,8 +12,8 @@ function ProductDetail() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        console.log("API URL:", process.env.REACT_APP_API_URL); // Debugging API URL
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${id}`);
+        console.log("API URL:", 'https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net'); // Debugging API URL
+        const response = await axios.get(`https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net/api/products/${id}`);
         
         console.log("Fetched Product:", response.data);  // Debug: See full response in console
   

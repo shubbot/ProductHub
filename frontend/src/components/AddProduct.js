@@ -36,7 +36,7 @@ function AddProduct() {
         formData.append('image', image);
         
         const uploadResponse = await axios.post(
-          `${process.env.REACT_APP_API_URL}/api/upload`,
+          `https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net/api/upload`,
           formData,
           {
             headers: {
@@ -49,7 +49,7 @@ function AddProduct() {
       }
       
       // Create the product
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/products`, {
+      await axios.post(`https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net/api/products`, {
         name,
         description,
         price,

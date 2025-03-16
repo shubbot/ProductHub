@@ -27,7 +27,7 @@ function ProductList() {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
-        await axios.delete(`${process.env.REACT_APP_API_URL}/api/products/${id}`);
+        await axios.delete(`https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net/api/products/${id}`);
         setProducts(products.filter(product => product._id !== id));
       } catch (err) {
         setError('Error deleting product. Please try again later.');

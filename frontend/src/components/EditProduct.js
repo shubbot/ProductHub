@@ -21,7 +21,7 @@ function EditProduct() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/products/${id}`);
+        const response = await axios.get(`https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net/api/products/${id}`);
         const product = response.data;
         
         setName(product.name);
@@ -61,7 +61,7 @@ function EditProduct() {
         formData.append('image', image);
         
         const uploadResponse = await axios.post(
-          `${process.env.REACT_APP_API_URL}/api/upload`,
+          `https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net/api/upload`,
           formData,
           {
             headers: {
@@ -74,7 +74,7 @@ function EditProduct() {
       }
       
       // Update the product
-      await axios.put(`${process.env.REACT_APP_API_URL}/api/products/${id}`, {
+      await axios.put(`https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net/api/products/${id}`, {
         name,
         description,
         price,
