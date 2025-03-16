@@ -57,9 +57,9 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model('Product', productSchema);
 
 // Routes
-app.get('/', (req, res) => {
-  res.send('Product Catalog API is running');
-});
+// app.get('/', (req, res) => {
+//   res.send('Product Catalog API is running');
+// });
 
 // Get all products
 app.get('/api/products', async (req, res) => {
