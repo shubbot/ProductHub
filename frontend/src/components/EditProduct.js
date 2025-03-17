@@ -1,4 +1,3 @@
-// src/components/EditProduct.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -55,7 +54,6 @@ function EditProduct() {
     try {
       let imageUrl = currentImageUrl;
       
-      // If new image is selected, upload it first
       if (image) {
         const formData = new FormData();
         formData.append('image', image);
@@ -73,7 +71,6 @@ function EditProduct() {
         imageUrl = uploadResponse.data.imageUrl;
       }
       
-      // Update the product
       await axios.put(`https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net/api/products/${id}`, {
         name,
         description,

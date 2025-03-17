@@ -12,10 +12,10 @@ function ProductDetail() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        console.log("API URL:", 'https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net'); // Debugging API URL
+        console.log("API URL:", 'https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net');
         const response = await axios.get(`https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net/api/products/${id}`);
         
-        console.log("Fetched Product:", response.data);  // Debug: See full response in console
+        console.log("Fetched Product:", response.data);  
   
         setProduct(response.data);
         setLoading(false);

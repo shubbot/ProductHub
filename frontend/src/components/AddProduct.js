@@ -30,7 +30,6 @@ function AddProduct() {
     try {
       let imageUrl = '';
       
-      // If image is selected, upload it first
       if (image) {
         const formData = new FormData();
         formData.append('image', image);
@@ -48,7 +47,6 @@ function AddProduct() {
         imageUrl = uploadResponse.data.imageUrl;
       }
       
-      // Create the product
       await axios.post(`https://producthub-g8a3eac3c9bcasfx.southindia-01.azurewebsites.net/api/products`, {
         name,
         description,

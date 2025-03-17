@@ -5,10 +5,8 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
       <div className="container">
-        {/* Branding */}
         <Link className="navbar-brand fw-bold text-uppercase" to="/">Product Hub</Link>
         
-        {/* Navbar Toggler for Mobile */}
         <button 
           className="navbar-toggler" 
           type="button" 
@@ -21,7 +19,6 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Center - Navigation Links */}
         <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
@@ -33,7 +30,6 @@ function Navbar() {
           </ul>
         </div>
 
-        {/* Right Side - Assignment Details */}
         <div className="ms-auto text-end text-light small">
           <span className="fw-bold">ELL887 - Assignment 2</span><br />
           <span>Shubham Chandra</span><br />

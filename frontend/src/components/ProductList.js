@@ -6,7 +6,7 @@ function ProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [sortOption, setSortOption] = useState(''); // Sorting option state
+  const [sortOption, setSortOption] = useState('');
 
   useEffect(() => {
     fetchProducts();
@@ -36,23 +36,21 @@ function ProductList() {
     }
   };
 
-  // Function to handle sorting selection
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
   };
 
-  // Apply sorting based on the selected option
   const sortedProducts = [...products].sort((a, b) => {
     if (sortOption === 'price') {
-      return a.price - b.price; // Low to High
+      return a.price - b.price; 
     } else if (sortOption === 'price_desc') {
-      return b.price - a.price; // High to Low
+      return b.price - a.price;
     } else if (sortOption === 'date') {
-      return new Date(b.createdAt) - new Date(a.createdAt); // Newest First
+      return new Date(b.createdAt) - new Date(a.createdAt); 
     } else if (sortOption === 'date_desc') {
-      return new Date(a.createdAt) - new Date(b.createdAt); // Oldest First
+      return new Date(a.createdAt) - new Date(b.createdAt);
     }
-    return 0; // Default: No sorting
+    return 0; 
   });
 
   if (loading) return <div className="text-center mt-5"><div className="spinner-border" role="status"></div></div>;
@@ -63,7 +61,6 @@ function ProductList() {
     <div>
       <h2 className="mb-4">Product Catalog</h2>
 
-      {/* Sorting Dropdown */}
       <div className="mb-3">
         <label className="me-2"><strong>Sort By:</strong></label>
         <select className="form-select d-inline-block w-auto"

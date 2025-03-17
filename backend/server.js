@@ -1,14 +1,3 @@
-// const appInsights = require("applicationinsights");
-
-// // Initialize App Insights before other imports
-// appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY)
-//     .setAutoCollectRequests(true)
-//     .setAutoCollectPerformance(true)
-//     .setAutoCollectExceptions(true)
-//     .setAutoCollectDependencies(true)
-//     .setSendLiveMetrics(true)
-//     .start();
-
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -56,28 +45,20 @@ const productSchema = new mongoose.Schema({
 
 const Product = mongoose.model('Product', productSchema);
 
-// Routes
 app.get('/', (req, res) => {
   res.send('Product Catalog API is running');
 });
 
-// Get all products
 app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find();
-    // Log a custom event for monitoring
-    // appInsightsClient.trackEvent({ name: "Fetched all products", properties: { count: products.length } });
-    
     res.json(products);
   } catch (error) {
     console.error('Error fetching products:', error);
-    // Log error details
-    // appInsightsClient.trackException({ exception: error });
     res.status(500).json({ message: 'Error fetching products', error: error.message });
   }
 });
 
-// Get a specific product
 app.get('/api/products/:id', async (req, res) => {
     try {
       const product = await Product.findById(req.params.id);
@@ -85,8 +66,6 @@ app.get('/api/products/:id', async (req, res) => {
       if (!product) {
         return res.status(404).json({ message: 'Product not found' });
       }
-
-      // No need to construct imageUrl, it's already stored correctly
       res.json(product);
     } catch (error) {
       console.error('Error fetching product:', error);
@@ -96,52 +75,39 @@ app.get('/api/products/:id', async (req, res) => {
 
 
 
-// Upload image to Azure Blob Storage
 app.post('/api/upload', upload.single('image'), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ message: 'No file uploaded' });
         }
-
-        // Generate correct unique blob name
         const blobName = `${uuidv4()}-${req.file.originalname}`;
         const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-        // Upload file
         await blockBlobClient.upload(req.file.buffer, req.file.size, {
             blobHTTPHeaders: { blobContentType: req.file.mimetype }
         });
-
-        // Correct Image URL
         const imageUrl = `https://productcatalogblobs.blob.core.windows.net/product-images/${blobName}`;
 
         console.log("✅ Uploaded Image:", { blobName, imageUrl });
 
-        // Log successful upload event
-        // appInsightsClient.trackEvent({ name: "Image Uploaded", properties: { blobName, imageUrl } });
-
-        // Send the correct blobName and imageUrl
         res.json({ imageUrl, blobName });
     } catch (error) {
         console.error("❌ Error uploading image:", error);
-        // appInsightsClient.trackException({ exception: error });
         res.status(500).json({ message: 'Error uploading image', error: error.message });
     }
 });
 
 
-// In server.js
 app.post('/api/products', async (req, res) => {
     try {
         const { name, description, price, imageUrl, category } = req.body;
         console.log("🔍 Received imageUrl:", imageUrl);
         
-        // No need to reconstruct the URL since we're getting the complete URL already
         const newProduct = new Product({
             name,
             description,
             price: parseFloat(price),
-            imageUrl,   // Store the complete imageUrl
+            imageUrl,   
             category
         });
         const savedProduct = await newProduct.save();
@@ -153,8 +119,6 @@ app.post('/api/products', async (req, res) => {
     }
 });
 
-
-// Update a product
 app.put('/api/products/:id', async (req, res) => {
   try {
     const { name, description, price, imageUrl, category } = req.body;
@@ -183,7 +147,6 @@ app.put('/api/products/:id', async (req, res) => {
   }
 });
 
-// Delete a product
 app.delete('/api/products/:id', async (req, res) => {
   try {
     const deletedProduct = await Product.findByIdAndDelete(req.params.id);
@@ -192,7 +155,6 @@ app.delete('/api/products/:id', async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
     
-    // If the product has an image, delete it from blob storage
     if (deletedProduct.imageUrl) {
       try {
         const blobName = deletedProduct.imageUrl.split('/').pop();
@@ -200,7 +162,6 @@ app.delete('/api/products/:id', async (req, res) => {
         await blockBlobClient.delete();
       } catch (blobError) {
         console.error('Error deleting image blob:', blobError);
-        // Continue even if blob deletion fails
       }
     }
     
@@ -211,7 +172,6 @@ app.delete('/api/products/:id', async (req, res) => {
   }
 });
 
-// Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
